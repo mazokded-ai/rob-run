@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ROB RUN OVERLAY</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080b12;color:#eee;
+ font-family:Arial,sans-serif;padding:20px;
+}
+.panel{
+ max-width:430px;margin:30px auto;
+ background:#111827;border:1px solid #26364c;
+ border-radius:16px;padding:22px;
+ box-shadow:0 0 30px #087cff22;
+}
+h1{color:#55baff;text-align:center}
+.sub{text-align:center;color:#8293aa}
+.item{
+ display:flex;justify-content:space-between;
+ align-items:center;padding:17px 4px;
+ border-bottom:1px solid #26364c;
+}
+input{accent-color:#00aaff;width:20px;height:20px}
+button{
+ width:100%;padding:13px;margin-top:12px;
+ background:#087cff;color:white;border:0;
+ border-radius:9px;font-weight:bold;
+}
+.preview{
+ margin-top:20px;padding:20px;
+ border:1px solid #26364c;border-radius:12px;
+ text-align:center;
+}
+.circle{
+ width:130px;height:130px;border:2px solid #00baff;
+ border-radius:50%;margin:15px auto;
+ display:flex;align-items:center;justify-content:center;
+ color:#00baff;
+}
+</style>
+</head>
+<body>
+<div class="panel">
+<h1>ROB RUN</h1>
+<p class="sub">NEON OVERLAY v1.0</p>
+
+<div class="item">Aim Assist
+<input type="checkbox" id="aim">
+</div>
+<div class="item">ESP Demo
+<input type="checkbox" id="esp">
+</div>
+<div class="item">Radar
+<input type="checkbox" id="radar">
+</div>
+<div class="item">FOV Circle
+<input type="checkbox" id="fov">
+</div>
+
+<div class="item">
+<label for="radius">FOV Radius</label>
+<input type="range" id="radius" min="30" max="150" value="90">
+</div>
+
+<div class="preview">
+<b>VISUAL PREVIEW</b>
+<div class="circle" id="circle">FOV</div>
+<p id="status">SYSTEM READY</p>
+</div>
+
+<button onclick="reset()">RESET SETTINGS</button>
+</div>
+
+<script>
+const ids=['aim','esp','radar','fov'];
+function update(){
+ const active=ids.filter(id=>
+ document.getElementById(id).checked);
+ document.getElementById('status').textContent=
+ active.length ? active.join(' + ').toUpperCase() : 'SYSTEM READY';
+ const circle=document.getElementById('circle');
+ circle.style.display=
+ document.getElementById('fov').checked?'flex':'none';
+ circle.style.width=document.getElementById('radius').value+'px';
+ circle.style.height=document.getElementById('radius').value+'px';
+}
+ids.forEach(id=>document.getElementById(id)
+.addEventListener('change',update));
+document.getElementById('radius')
+.addEventListener('input',update);
+function reset(){
+ ids.forEach(id=>document.getElementById(id).checked=false);
+ document.getElementById('radius').value=90;
+ update();
+}
+update();
+</script>
+</body>
+</html>
